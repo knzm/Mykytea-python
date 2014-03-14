@@ -3,4 +3,3 @@ include Makefile
 include mykytea.cpp
 include mykytea.hpp
 include mykytea_test.py
-include Mykytea.py
