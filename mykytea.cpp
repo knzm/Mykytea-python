@@ -7,10 +7,10 @@ const int MAX_LEN = 256;
 
 int split_argv(char* input, const char* configs[]){
   int len;
+  char *cp;
   const char *delim = " ";
 
-  char *cp = (char *)malloc(strlen(input) + 1);
-  strcpy(cp, input);
+  cp = input;
   configs[0] = "";
   for(len = 0; len < MAX_LEN; len++){
     if((configs[len + 1] = std::strtok(cp, delim)) == NULL )
@@ -23,12 +23,15 @@ int split_argv(char* input, const char* configs[]){
 Mykytea::Mykytea(char* str)
 {
   const char* configs[MAX_LEN + 1];
-  int len = split_argv(str, configs);
+  char *cp = (char *)malloc(strlen(str) + 1);
+  strcpy(cp, str);
+  int len = split_argv(cp, configs);
 
   config = new KyteaConfig;
   config->setDebug(0);
   config->setOnTraining(false);
   config->parseRunCommandLine(len, configs);
+  free(cp);
 
   kytea = new Kytea(config);
   kytea->readModel(config->getModelFile().c_str());
